@@ -10,6 +10,8 @@ class User extends Authenticatable
     use Notifiable;
 
     const DEFAULT_PASSWORD = 'hellworld';
+    const ROLE_STANDARD = 'standard';
+    const ROLE_ADMIN = 'admin';
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +25,7 @@ class User extends Authenticatable
         'contact_number',
         'email',
         'password',
+        'enabled_at'
     ];
 
     /**

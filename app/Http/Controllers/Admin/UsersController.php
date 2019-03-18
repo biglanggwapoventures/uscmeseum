@@ -15,7 +15,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('users.index');
+        $users = User::latest()->get();
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -86,15 +87,26 @@ class UsersController extends Controller
         $data = $request->validate([
             'firstname'                   => 'required',
             'lastname'                    => 'required',
-            'email'                       => 'required|email|unique:users',
+            'email'                       => "required|email|unique:users,email,{$user->id}",
             'gender'                      => 'required|in:male,female',
             'contact_number'              => 'required',
-            'password'                    => 'nullable|confirmed'
+            'password'                    => 'sometimes|nullable|confirmed',
+            'enabled'                  => 'sometimes|boolean'
         ]);
 
-        if (strlen($data['password'])) {
+        if (isset($data['password']) && strlen($data['password'])) {
             $data['password'] = bcrypt($data['password']);
+        }else{
+            unset($data['password']);
         }
+
+        if(isset($data['enabled']) && $data['enabled']){
+            $data['enabled_at'] = now()->format('Y-m-d H:i:s');
+        }else{
+            $data['enabled_at'] = null;
+        }
+
+        unset($data['enabled']);
 
         $user->fill($data)->save();
 
