@@ -16,6 +16,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::latest()->get();
+
         return view('users.index', compact('users'));
     }
 
@@ -32,17 +33,17 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $data = $request->validate([
-            'firstname'                   => 'required',
-            'lastname'                    => 'required',
-            'email'                       => 'required|email|unique:users',
-            'gender'                      => 'required|in:male,female',
-            'contact_number'              => 'required'
+            'firstname'      => 'required',
+            'lastname'       => 'required',
+            'email'          => 'required|email|unique:users',
+            'gender'         => 'required|in:male,female',
+            'contact_number' => 'required'
         ]);
 
         // set default password
@@ -56,7 +57,7 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -67,7 +68,7 @@ class UsersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -78,31 +79,31 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\User                $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
     {
         $data = $request->validate([
-            'firstname'                   => 'required',
-            'lastname'                    => 'required',
-            'email'                       => "required|email|unique:users,email,{$user->id}",
-            'gender'                      => 'required|in:male,female',
-            'contact_number'              => 'required',
-            'password'                    => 'sometimes|nullable|confirmed',
-            'enabled'                  => 'sometimes|boolean'
+            'firstname'      => 'required',
+            'lastname'       => 'required',
+            'email'          => "required|email|unique:users,email,{$user->id}",
+            'gender'         => 'required|in:male,female',
+            'contact_number' => 'required',
+            'password'       => 'sometimes|nullable|confirmed',
+            'enabled'        => 'sometimes|boolean'
         ]);
 
         if (isset($data['password']) && strlen($data['password'])) {
             $data['password'] = bcrypt($data['password']);
-        }else{
+        } else {
             unset($data['password']);
         }
 
-        if(isset($data['enabled']) && $data['enabled']){
+        if (isset($data['enabled']) && $data['enabled']) {
             $data['enabled_at'] = now()->format('Y-m-d H:i:s');
-        }else{
+        } else {
             $data['enabled_at'] = null;
         }
 
@@ -116,7 +117,7 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param  \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)

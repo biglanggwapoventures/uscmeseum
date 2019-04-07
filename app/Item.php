@@ -42,4 +42,9 @@ class Item extends Model
 
         return $this->logs->sum('quantity');
     }
+
+    public function likers()
+    {
+        return $this->belongsToMany(Item::class, 'favorites','item_id', 'user_id');
+    }
 }

@@ -20,12 +20,12 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="list-group mb-3">
-                <a href="{{ url('/') }}" 
+                <a href="{{ url('/') }}"
                     class="list-group-item list-group-item-action {{ !request()->input('category_id') ? 'active' : '' }}">
                     ALL CATEGORIES
                 </a>
                 @foreach($categories as $category)
-                    <a href="{{ url('/'). '?category_id='. $category->id  }}" 
+                    <a href="{{ url('/'). '?category_id='. $category->id  }}"
                         class="list-group-item list-group-item-action {{ $category->id == request()->input('category_id') ? 'active' : '' }}">
                         {{ $category->name }}
                     </a>

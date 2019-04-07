@@ -15,6 +15,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('fontawesome/css/all.min.css') }}" rel="stylesheet">
+
+    @stack('css')
 </head>
 <body>
     <div id="app">
@@ -71,8 +73,10 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a href="{{ url('orders') }}" class="dropdown-item">Order History</a>
+                                    <a href="{{ url('my-favorites') }}" class="dropdown-item">My Favorites</a>
+                                    <a href="{{ url('admin/most-favorited-items') }}" class="dropdown-item">Most Favorited</a>
                                     <a href="{{ url('profile') }}" class="dropdown-item">Profile</a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    <a class="dropdown-item" href="{{ route('logout') }}"q
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         Logout

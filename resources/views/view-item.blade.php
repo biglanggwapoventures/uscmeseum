@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@push('css')
+    <style type="text/css">
+        .favorite {
+            cursor: pointer;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -19,7 +27,12 @@
         @endif
         <div class="row">
             <div class="col-sm-4 text-center">
-                <img src="{{ asset("storage/$item->image_filepath") }}" alt="" class="img-fluid mx-auto">
+                <img src="{{ asset("storage/$item->image_filepath") }}" alt="" class="img-fluid mx-auto mb-3">
+                @if(Auth::user()->hasFavorite($item->id))
+                    <p class="text-danger favorite"><i class="fas fa-heart"> </i> This item is in your favorites list</p>
+                @else
+                    <p class="text-info favorite"><i class="far fa-heart"></i> Mark as favorite</p>
+                @endif
             </div>
             <div class="col sm-9">
                 <h1>{{ $item->name }}</h1>
@@ -27,11 +40,6 @@
                     <i class="fas fa-money-bill"></i>
                     {{ number_format($item->selling_price, 2) }}
                 </h3>
-                @if(Auth::user()->hasFavorite($item->id))
-                    <h4 class="text-danger"><i class="fas fa-heart"></i></h4>
-                @else
-                    <h4 class="text-danger"><i class="fas fa-heart"></i></h4>
-                @endif
                 <p>{{ $item->description }}</p>
                 <hr>
                 <form action="{{ url('cart') }}" method="POST">
@@ -63,3 +71,19 @@
         </div>
     </div>
 @endsection
+
+
+@push('js')
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('.favorite').click(function () {
+          var $this = $(this);
+          $.post("{{ url("item/{$item->id}/favorite") }}", {
+            _token: "{{ csrf_token() }}"
+          }).done(function () {
+            window.location.reload()
+          })
+        })
+      })
+    </script>
+@endpush
