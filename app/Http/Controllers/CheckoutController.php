@@ -22,19 +22,21 @@ class CheckoutController extends Controller
             'delivery_address' => 'required|string',
             'remarks' => 'present|nullable',
         ]);
-
-        /**
-         * Get all items in cart
-         */
-        $cartItems = Cart::allContents();    
-
-        $order = null;
         
         /**
          * Use DB transaction because storing an order
          * in the database requires multiple queries
          */
-        DB::transaction(function () use ($input, $cartItems, $order) {
+        DB::transaction(function () use ($input) {
+
+
+
+            /**
+             * Get all items in cart
+             */
+            $cartItems = Cart::allContents();
+
+            $order = null;
 
             /**
              * Create the order
@@ -64,14 +66,22 @@ class CheckoutController extends Controller
              */
             $order->orderDetails()->createMany($orderDetails->toArray());
 
+            /**
+             * Decrement item in inventory
+             */
+            $order->orderDetails->each->decrementItem();
+
             $this->sendEmail($order);
+
+            Cart::clear();
         });
         
         /**
          * Everything seems to be ok!
          */
         return response()->json([
-            'result' => true
+            'result' => true,
+            'redirect' => url('/')
         ]);
     }
 

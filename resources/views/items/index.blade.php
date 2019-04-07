@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-10">
             <div class="card">
                 <div class="card-body p-0">
                     <table class="table table-hover bg-white mb-0">
@@ -22,6 +22,8 @@
                                 <th>Name</th>
                                 <th>Category</th>
                                 <th class="text-right">Selling Price</th>
+                                <th class="text-right">Stock on hand</th>
+                                <th>Logs</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -34,9 +36,13 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->category->name }}</td>
                                     <td class="text-right">{{ number_format($item->selling_price, 2) }}</td>
+                                    <td class="text-right">{{ number_format($item->balance) }}</td>
+                                    <td>
+                                        <a href="{{ url("admin/item/{$item->id}/logs") }}" class="btn btn-sm btn-outline-secondary">View logs</a>
+                                    </td>
                                     <td class="text-center">
-                                        <a href="{{ url("admin/items/{$item->id}/edit") }}" class="btn btn-sm btn-info mr-2">Edit</a>
-                                        <a href="#"class="btn btn-danger btn-sm ">Delete</a>
+                                        <a href="{{ url("admin/items/{$item->id}/edit") }}" class="btn btn-sm btn-outline-info mr-2">Edit</a>
+                                        <a href="#"class="btn btn-outline-danger btn-sm ">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach

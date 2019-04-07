@@ -23,8 +23,15 @@
             </div>
             <div class="col sm-9">
                 <h1>{{ $item->name }}</h1>
-                <h3 class="text-success"><i class="fas fa-money-bill"></i> {{ number_format($item->selling_price, 2) }}
+                <h3 class="text-success">
+                    <i class="fas fa-money-bill"></i>
+                    {{ number_format($item->selling_price, 2) }}
                 </h3>
+                @if(Auth::user()->hasFavorite($item->id))
+                    <h4 class="text-danger"><i class="fas fa-heart"></i></h4>
+                @else
+                    <h4 class="text-danger"><i class="fas fa-heart"></i></h4>
+                @endif
                 <p>{{ $item->description }}</p>
                 <hr>
                 <form action="{{ url('cart') }}" method="POST">
@@ -40,6 +47,9 @@
                                 <input name="quantity" value="{{ old('quantity', 1) }}" type="number" min="1b"
                                        class="form-control form-control-lg" placeholder=""
                                        aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                @if($errors->has('quantity'))
+                                    <p class="text-danger">* {{ $errors->first('quantity') }}</p>
+                                @endif
                             </div>
                         </div>
                         <div class="col-sm-4">

@@ -145,10 +145,13 @@
             contentType: false,
             processData: false,
             success: function (res) {
-              console.log(res)
+
             },
-            error: function () {
-              window.alert('An internal server error has occured. Please refresh the page and try again!')
+            error: function (xhr) {
+              if(xhr.status === 500){
+                window.alert('An internal server error has occured. Please refresh the page and try again!')
+              }
+
             },
             complete: function () {
               $this.removeClass('disabled').html(content)
@@ -177,7 +180,9 @@
           method: checkoutSettings.method,
           data: {remarks: remarks, delivery_address: delivery_address, _token: _token},
           success: function (response) {
-            console.log(response)
+            if(response.hasOwnProperty('redirect')) {
+              window.location.href = response.redirect
+            }
           },
           error: function (xhr) {
             if (xhr.status === 422) {

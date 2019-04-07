@@ -28,4 +28,18 @@ class Item extends Model
     {
         return Str::slug($this->name);
     }
+
+    public function logs()
+    {
+        return $this->morphMany(ItemLog::class, 'loggable', 'causer_type', 'causer_id')->latest();
+    }
+
+    public function getBalanceAttribute() : float
+    {
+        if(!$this->relationLoaded('logs')){
+            return 0;
+        }
+
+        return $this->logs->sum('quantity');
+    }
 }

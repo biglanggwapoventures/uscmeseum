@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>Order History</h1>
+                <h1>Orders</h1>
                 <div class="card">
                     <div class="card-body p-0">
                         <table class="table mb-0 table-striped table-hover">

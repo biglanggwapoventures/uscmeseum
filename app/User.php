@@ -69,4 +69,14 @@ class User extends Authenticatable
     {
         return strtolower($role) === strtolower($this->user_role);
     }
+
+    public function favoriteItems()
+    {
+        return $this->belongsToMany(Item::class,'favorites','user_id', 'item_id');
+    }
+
+    public function hasFavorite(int $itemId)
+    {
+        return $this->favoriteItems()->where('items.id', $itemId)->exists();
+    }
 }

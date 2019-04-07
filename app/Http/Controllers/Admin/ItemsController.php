@@ -16,7 +16,7 @@ class ItemsController extends Controller
      */
     public function index()
     {
-        $items = Item::with('category')->orderBy('name')->get();
+        $items = Item::with(['category', 'logs'])->orderBy('name')->get();
 
         return view('items.index', compact('items'));
     }

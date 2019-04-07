@@ -77,6 +77,11 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function customer() : BelongsTo
+    {
+        return $this->user();
+    }
+
     /**
      * Calculates the value for the arbitrary field `amount`
      *
@@ -94,5 +99,10 @@ class Order extends Model
         }
 
         return $this->orderDetails->sum('amount');
+    }
+
+    public function status ($status)
+    {
+        return strtolower($status) === strtolower($this->order_status);
     }
 }

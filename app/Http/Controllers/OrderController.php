@@ -15,14 +15,14 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with(['orderDetails.item'])
+        $orders = Order::with(['customer', 'orderDetails.item'])
                        ->when(Auth::user()->isRole(User::ROLE_STANDARD), function ($query) {
                            $query->where('user_id', Auth::id());
                        })
                        ->latest()
                        ->get();
 
-        return view('order-history', [
+        return view('orders.index', [
             'orders' => $orders
         ]);
     }
@@ -56,7 +56,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return view('view-order', compact('order'));
+        $order->load(['orderDetails.item', 'customer']);
+
+        return view('orders.show', compact('order'));
     }
 
     /**
@@ -73,13 +75,19 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int                      $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Order   $order
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Order $order)
     {
-        //
+        $input = $request->validate([
+            'order_status' => 'required|in:pending,rejected,approved'
+        ]);
+
+        $order->fill($input);
+        $order->save();
+
+        return redirect('orders')->with('message', "Order # {$order->id} has been successfully {$input['order_status']}");
     }
 
     /**

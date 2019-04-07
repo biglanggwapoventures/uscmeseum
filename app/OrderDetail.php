@@ -57,4 +57,20 @@ class OrderDetail extends Model
     {
         return $this->quantity * $this->selling_price;
     }
+
+    public function logs()
+    {
+        return $this->morphMany(ItemLog::class, 'loggable', 'causer_type', 'causer_id');
+    }
+
+    public function decrementItem(): ItemLog
+    {
+        return $this->logs()->create([
+            'item_id' => $this->item_id,
+            'quantity' => ($this->quantity * -1),
+            'reason' => "Customer Order # {$this->order_id}"
+        ]);
+    }
+
+
 }

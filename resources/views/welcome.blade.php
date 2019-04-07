@@ -44,7 +44,7 @@
                                 <h5 class="card-title font-weight-bold"><a class="text-dark text-decoration-none" href="{{ url("{$item->id}/{$item->slug}") }}">{{ $item->name }}</a></h5>
                                 <h5 class="card-subtitle text-info mb-4">{{ number_format($item->selling_price, 2) }}</h5>
                                 <p class="card-text">{{ Str::limit($item->description, 200) }}</p>
-                                <a href="#" class="btn btn-primary">Add to cart</a>
+                                <a href="{{ url("{$item->id}/{$item->slug}") }}" class="btn btn-primary">View item</a>
                             </div>
                         </div>
                     </div>

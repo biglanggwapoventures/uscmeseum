@@ -1,10 +1,10 @@
-i<?php
+<?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateItemsTable extends Migration
+class CreateFavoritesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('category_id');
-            $table->string('name')->unique();
-            $table->text('description');
-            $table->decimal('selling_price', 13, 2);
-            $table->text('image_filepath')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('item_id');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('favorites');
     }
 }
