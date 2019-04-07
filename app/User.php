@@ -5,6 +5,19 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * Class User
+ * @property string $firstname
+ * @property string $lastname
+ * @property string $gender
+ * @property string $contact_number
+ * @property string $email
+ * @property string $user_role
+ * @property-read string $created_at
+ * @property-read string $updated_at
+ *
+ * @package App
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -25,7 +38,7 @@ class User extends Authenticatable
         'contact_number',
         'email',
         'password',
-        'enabled_at'
+        'user_role',
     ];
 
     /**
@@ -38,11 +51,22 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * 
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
+    protected $appends = [
+        'full_name'
     ];
+
+
+    public function getFullNameAttribute()
+    {
+        return "{$this->firstname} {$this->lastname}";
+    }
+
+    public function isRole($role)
+    {
+        return strtolower($role) === strtolower($this->user_role);
+    }
 }

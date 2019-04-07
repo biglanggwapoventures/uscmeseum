@@ -20,6 +20,10 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="list-group mb-3">
+                <a href="{{ url('/') }}" 
+                    class="list-group-item list-group-item-action {{ !request()->input('category_id') ? 'active' : '' }}">
+                    ALL CATEGORIES
+                </a>
                 @foreach($categories as $category)
                     <a href="{{ url('/'). '?category_id='. $category->id  }}" 
                         class="list-group-item list-group-item-action {{ $category->id == request()->input('category_id') ? 'active' : '' }}">
@@ -37,7 +41,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title font-weight-bold">{{ $item->name }}</h5>
+                                <h5 class="card-title font-weight-bold"><a class="text-dark text-decoration-none" href="{{ url("{$item->id}/{$item->slug}") }}">{{ $item->name }}</a></h5>
                                 <h5 class="card-subtitle text-info mb-4">{{ number_format($item->selling_price, 2) }}</h5>
                                 <p class="card-text">{{ Str::limit($item->description, 200) }}</p>
                                 <a href="#" class="btn btn-primary">Add to cart</a>

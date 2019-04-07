@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Item extends Model
 {
@@ -14,8 +15,17 @@ class Item extends Model
         'image_filepath'
     ];
 
+    protected $appends = [
+        'slug'
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function getSlugAttribute()
+    {
+        return Str::slug($this->name);
     }
 }

@@ -10,10 +10,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('fontawesome/css/all.min.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -55,12 +56,21 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a href="{{ url('cart') }}" class="nav-link">
+                                    @if($count = Cart::count())
+                                        <span class="badge badge-light">{{ $count }}</span>
+                                    @endif
+                                    <i class="fas fa-shopping-cart"></i> 
+                                    Cart
+                                </a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->firstname }} <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a href="#" class="dropdown-item">Order History</a>
+                                    <a href="{{ url('orders') }}" class="dropdown-item">Order History</a>
                                     <a href="#" class="dropdown-item">Profile</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -83,5 +93,7 @@
             @yield('content')
         </main>
     </div>
+
+    @stack('js')
 </body>
 </html>
