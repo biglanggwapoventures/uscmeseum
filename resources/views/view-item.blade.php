@@ -23,7 +23,15 @@
             </div>
         </div>
         @if($message = session('message'))
-            <div class="alert alert-success"><i class="fas fa-check"></i> {{ $message }}</div>
+            <div class="alert alert-success">
+                <i class="fas fa-check"></i> {{ $message }}
+                <hr>
+                <p class="mb-0">
+                    <a href="{{ url('cart') }}" class="btn btn-outline-success"><i class="fas fa-shopping-cart"></i> Go to cart</a>
+                    <span class="mx-3">or</span>
+                    <a href="{{ url('/') }}" class="btn btn-outline-success"><i class="fas fa-plus"></i> Add more items</a>
+                </p>
+            </div>
         @endif
         <div class="row">
             <div class="col-sm-4 text-center">

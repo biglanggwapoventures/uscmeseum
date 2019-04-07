@@ -27,6 +27,6 @@ class ItemLogsController extends Controller
             'reason' => 'Quantity Adjustment'
         ]));
 
-        return redirect()->back();
+        return redirect('admin/items')->with('message', "Successfully adjusted quantity for {$item->name}");
     }
 }

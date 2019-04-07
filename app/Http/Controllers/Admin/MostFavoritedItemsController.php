@@ -11,7 +11,7 @@ class MostFavoritedItemsController extends Controller
     public function __invoke()
     {
         $items = Item::withCount('likers')
-                     ->with('category')
+                     ->with(['category', 'logs'])
                      ->get()
                      ->sortByDesc('likers_count')
                      ->values();

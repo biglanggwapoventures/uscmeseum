@@ -13,6 +13,11 @@
     </div>
     <div class="row">
         <div class="col-sm-10">
+            @if($message = session('message'))
+            <div class="text-success">
+                <i class="fas fa-check"></i> {{ $message }}
+            </div>
+            @endif
             <div class="card">
                 <div class="card-body p-0">
                     <table class="table table-hover bg-white mb-0">
