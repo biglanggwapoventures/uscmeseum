@@ -122,8 +122,11 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-
-        return redirect('admin/users');
+        try {
+            $user->delete();
+            return redirect('admin/users')->with('deletion', ['variant' => 'success', 'message' => "You have successfully deleted user: {$user->email}"]);
+        }catch (\Exception $exception){
+            return redirect('admin/users')->with('deletion', ['variant' => 'danger', 'message' => "Cannot delete \"{$user->email}\" because it is being used."]);
+        }
     }
 }

@@ -113,8 +113,11 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
-
-        return redirect('admin/categories');
+        try {
+            $category->delete();
+            return redirect('admin/categories')->with('deletion', ['variant' => 'success', 'message' => "You have successfully deleted category: {$category->name}"]);
+        }catch (\Exception $exception){
+            return redirect('admin/categories')->with('deletion', ['variant' => 'danger', 'message' => "Cannot delete \"{$category->name}\" because it is being used."]);
+        }
     }
 }

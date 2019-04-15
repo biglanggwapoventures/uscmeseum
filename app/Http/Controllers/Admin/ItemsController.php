@@ -124,8 +124,12 @@ class ItemsController extends Controller
      */
     public function destroy(Item $item)
     {
-        $item->delete();
+        try {
+            $item->delete();
+            return redirect('admin/items')->with('deletion', ['variant' => 'success', 'message' => "You have successfully deleted item: {$item->name}"]);
+        }catch (\Exception $exception){
+            return redirect('admin/items')->with('deletion', ['variant' => 'danger', 'message' => "Cannot delete \"{$item->name}\" because it is being used."]);
+        }
 
-        return redirect('admin/items');
     }
 }

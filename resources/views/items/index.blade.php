@@ -18,6 +18,11 @@
                 <i class="fas fa-check"></i> {{ $message }}
             </div>
             @endif
+            @if(session('deletion'))
+                <div class="alert alert-{{ session('deletion')['variant'] }}">
+                    <i class="fas fa-times"></i> {{ session('deletion')['message'] }}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-body p-0">
                     <table class="table table-hover bg-white mb-0">
@@ -47,7 +52,12 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="{{ url("admin/items/{$item->id}/edit") }}" class="btn btn-sm btn-outline-info mr-2">Edit</a>
-                                        <a href="#"class="btn btn-outline-danger btn-sm ">Delete</a>
+                                        <form action="{{ url("admin/items/{$item->id}") }}" method="post" onsubmit="return confirm('Are you sure you want to delete this item? This cannot be undone.')">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit"class="btn btn-outline-danger btn-sm ">Delete</button>
+                                        </form>
+
                                     </td>
                                 </tr>
                             @endforeach
