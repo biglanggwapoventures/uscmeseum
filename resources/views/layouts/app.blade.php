@@ -32,7 +32,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @auth
+                        @if(Auth::check() && Auth::user()->isRole('admin'))
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('admin/categories') }}">Categories</a>
                             </li>
@@ -42,7 +42,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('admin/users') }}">Users</a>
                             </li>
-                        @endauth
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -74,7 +74,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a href="{{ url('orders') }}" class="dropdown-item">Order History</a>
                                     <a href="{{ url('my-favorites') }}" class="dropdown-item">My Favorites</a>
-                                    <a href="{{ url('admin/most-favorited-items') }}" class="dropdown-item">Most Favorited</a>
+
                                     <a href="{{ url('profile') }}" class="dropdown-item">Profile</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"q
                                        onclick="event.preventDefault();
@@ -82,6 +82,9 @@
                                         Logout
                                     </a>
 
+                                    @if(auth()->user()->isRole('admin'))
+                                        <a href="{{ url('admin/most-favorited-items') }}" class="dropdown-item">Most Favorited</a>
+                                    @endif
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>

@@ -35,7 +35,7 @@
                                                                 class="fas fa-minus"></i></button>
                                                 </div>
                                                 <input type="number" class="form-control quantity" name="quantity"
-                                                       value="{{ $item['quantity'] }}" min="1">
+                                                       value="{{ $item['quantity'] }}" min="1" data-name="quantity">
                                                 <div class="input-group-append">
                                                     <button class="btn btn-secondary btn-adjust" data-adjust="+"
                                                             type="button" id="button-addon2"><i class="fas fa-plus"></i>

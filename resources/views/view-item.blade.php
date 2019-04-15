@@ -36,11 +36,13 @@
         <div class="row">
             <div class="col-sm-4 text-center">
                 <img src="{{ asset("storage/$item->image_filepath") }}" alt="" class="img-fluid mx-auto mb-3">
-                @if(Auth::user()->hasFavorite($item->id))
-                    <p class="text-danger favorite"><i class="fas fa-heart"> </i> This item is in your favorites list</p>
-                @else
-                    <p class="text-info favorite"><i class="far fa-heart"></i> Mark as favorite</p>
-                @endif
+                @auth
+                    @if(auth()->user()->hasFavorite($item->id))
+                        <p class="text-danger favorite"><i class="fas fa-heart"> </i> This item is in your favorites list</p>
+                    @else
+                        <p class="text-info favorite"><i class="far fa-heart"></i> Mark as favorite</p>
+                    @endif
+                @endauth
             </div>
             <div class="col sm-9">
                 <h1>{{ $item->name }}</h1>
@@ -50,31 +52,42 @@
                 </h3>
                 <p>{{ $item->description }}</p>
                 <hr>
-                <form action="{{ url('cart') }}" method="POST">
-                    @csrf
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Quantity</span>
-                                    <input type="hidden" name="item_id" value="{{ $item->id }}">
-                                    <input type="hidden" name="strategy" value="append">
+                @auth
+                    @if(Cart::has($item->id))
+                        <p class="alert alert-info text-center"><i class="fas fa-check"></i> This item is already in your cart. Go to <a href="{{ url('cart') }}">checkout</a> now!</p>
+                    @else
+                        <form action="{{ url('cart') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Quantity</span>
+                                            <input type="hidden" name="item_id" value="{{ $item->id }}">
+                                            <input type="hidden" name="strategy" value="append">
+                                        </div>
+                                        <input name="quantity" value="{{ old('quantity', 1) }}" type="number" min="1b"
+                                               class="form-control form-control-lg" placeholder=""
+                                               aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                        @if($errors->has('quantity'))
+                                            <p class="text-danger">* {{ $errors->first('quantity') }}</p>
+                                        @endif
+                                    </div>
                                 </div>
-                                <input name="quantity" value="{{ old('quantity', 1) }}" type="number" min="1b"
-                                       class="form-control form-control-lg" placeholder=""
-                                       aria-label="Example text with button addon" aria-describedby="button-addon1">
-                                @if($errors->has('quantity'))
-                                    <p class="text-danger">* {{ $errors->first('quantity') }}</p>
-                                @endif
+                                <div class="col-sm-4">
+                                    <button type="submit" class="btn btn-success btn-lg btn-block"><i class="fas fa-plus"></i>
+                                        Add to Cart
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <button type="submit" class="btn btn-success btn-lg btn-block"><i class="fas fa-plus"></i>
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                        </form>
+                    @endif
+
+                @else
+                    <p class="text-center text-danger">
+                        Please login to checkout items
+                    </p>
+                @endif
             </div>
         </div>
     </div>

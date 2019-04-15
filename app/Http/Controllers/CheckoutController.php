@@ -22,12 +22,15 @@ class CheckoutController extends Controller
             'delivery_address' => 'required|string',
             'remarks' => 'present|nullable',
         ]);
+
+        /** @var Order $order */
+        $order = null;
         
         /**
          * Use DB transaction because storing an order
          * in the database requires multiple queries
          */
-        DB::transaction(function () use ($input) {
+        DB::transaction(function () use ($input, &$order) {
 
 
 
@@ -71,11 +74,12 @@ class CheckoutController extends Controller
              */
             $order->orderDetails->each->decrementItem();
 
-            $this->sendEmail($order);
-
-            Cart::clear();
         });
-        
+
+        Cart::clear();
+
+        $this->sendEmail($order);
+
         /**
          * Everything seems to be ok!
          */
