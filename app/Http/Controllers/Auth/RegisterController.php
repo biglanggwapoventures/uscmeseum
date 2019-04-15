@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -28,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/login';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -75,5 +76,10 @@ class RegisterController extends Controller
             'password'                   => Hash::make($data['password']),
             'user_role'                 => User::ROLE_STANDARD
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        return redirect('/')->with('registered', true);
     }
 }

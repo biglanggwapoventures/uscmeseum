@@ -9,6 +9,7 @@ use App\Order;
 use Auth;
 use Illuminate\Http\JsonResponse;
 use Mail;
+use Session;
 
 class CheckoutController extends Controller
 {
@@ -80,12 +81,14 @@ class CheckoutController extends Controller
 
         $this->sendEmail($order);
 
+        Session::flash('checkout', true);
+
         /**
          * Everything seems to be ok!
          */
         return response()->json([
             'result' => true,
-            'redirect' => url('/')
+            'redirect' => url('orders')
         ]);
     }
 

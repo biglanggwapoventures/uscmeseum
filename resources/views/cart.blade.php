@@ -35,7 +35,7 @@
                                                                 class="fas fa-minus"></i></button>
                                                 </div>
                                                 <input type="number" class="form-control quantity" name="quantity"
-                                                       value="{{ $item['quantity'] }}" min="1" data-name="quantity">
+                                                       value="{{ $item['quantity'] }}" min="0" data-max="{{ $item['product']->balance }}" data-name="quantity" >
                                                 <div class="input-group-append">
                                                     <button class="btn btn-secondary btn-adjust" data-adjust="+"
                                                             type="button" id="button-addon2"><i class="fas fa-plus"></i>
@@ -125,6 +125,12 @@
         })
 
         $('.quantity').change(function () {
+          var maxQuantity = parseFloat($(this).data('max') || 0);
+          if(parseFloat($(this).val()) > maxQuantity){
+            alert('Available quantity is only ' + maxQuantity);
+            $(this).val(maxQuantity)
+            return false;
+          }
           calculateLineAmount($(this).closest('tr'));
           getTotalAmount();
         })

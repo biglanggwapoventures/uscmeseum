@@ -64,7 +64,7 @@
                             </tbody>
                         </table>
                     </div>
-                    @if($order->status('pending'))
+                    @if($order->status('pending') && auth()->user()->isRole('admin'))
                         <div class="card-body">
                             <form class="form-inline" method="post" action="{{ url("orders/{$order->id}") }}">
                                 @csrf

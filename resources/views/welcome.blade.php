@@ -4,6 +4,9 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
+            @if(session('registered'))
+                <div class="alert alert-success"><i class="fas fa-check"></i> Thank you for signing up! Enjoy shopping!</div>
+            @endif
             <form action="{{ url('/') }}" method="get">
                 <div class="input-group mb-3">
                     @if($categoryId = request()->input('category_id'))

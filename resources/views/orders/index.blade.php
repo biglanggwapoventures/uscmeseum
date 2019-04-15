@@ -5,6 +5,9 @@
         <div class="row">
             <div class="col">
                 <h1>Orders</h1>
+                @if(session('checkout'))
+                    <div class="alert alert-success"><i class="fas fa-check"></i> Thank you for shopping with us. You can track your orders below!</div>
+                @endif
                 <div class="card">
                     <div class="card-body p-0">
                         <table class="table mb-0 table-striped table-hover">

@@ -104,7 +104,7 @@ class Cart
     {
         $items = self::getContents();
 
-        $products = \App\Item::find($items->keys()->all());
+        $products = \App\Item::with('logs')->find($items->keys()->all());
 
         $contents = $products->map(function ($product) use ($items) {
             return [
