@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-sm-12">
             @if(session('registered'))
-                <div class="alert alert-success"><i class="fas fa-check"></i> Thank you for signing up! Enjoy shopping!</div>
+                <div class="alert alert-success"><i class="fas fa-check"></i> Thank you for signing up! You may wait for your account activation before you are able to login!</div>
             @endif
             <form action="{{ url('/') }}" method="get">
                 <div class="input-group mb-3">

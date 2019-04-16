@@ -80,6 +80,8 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
+        $this->guard()->logout();
+
         return redirect('/')->with('registered', true);
     }
 }
