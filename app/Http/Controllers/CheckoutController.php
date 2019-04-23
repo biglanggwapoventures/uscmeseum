@@ -70,10 +70,6 @@ class CheckoutController extends Controller
              */
             $order->orderDetails()->createMany($orderDetails->toArray());
 
-            /**
-             * Decrement item in inventory
-             */
-            $order->orderDetails->each->decrementItem();
 
         });
 
