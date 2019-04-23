@@ -87,6 +87,17 @@ class OrderController extends Controller
         $order->fill($input);
         $order->save();
 
+        if($order->status('approved')){
+            $order->load('orderDetails.item');
+            $order->orderDetails->each(function ($detail) use ($order){
+                $detail->item->logs()->create([
+                    'quantity' => ($detail->quantity * -1),
+                    'item_id' => $detail->item->id,
+                    'reason' => "Order # {$order->id}"
+                ]);
+            });
+        }
+
         return redirect('orders')->with('message', "Order # {$order->id} has been successfully {$input['order_status']}");
     }
 
