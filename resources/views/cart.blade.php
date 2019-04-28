@@ -134,7 +134,7 @@
 
           if(parseFloat($(this).val()) < 0){
             alert('Negative input not allowed!');
-            $(this).val(0)
+            return;
           }
           calculateLineAmount($(this).closest('tr'));
           getTotalAmount();
