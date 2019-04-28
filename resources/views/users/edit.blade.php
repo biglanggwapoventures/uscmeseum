@@ -61,18 +61,6 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="gender" class="col-md-3 col-form-label">Gender</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control{{ $errors->has('gender') ? ' is-invalid' : '' }} form-control-plaintext" name="gender" value="{{ old('gender', $user->gender) }}" readonly>
-                                @if ($errors->has('gender'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('gender') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-sm-9 offset-sm-3">
                                 <div class="form-group form-check">

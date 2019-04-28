@@ -16,7 +16,8 @@ class OrderDetail extends Model
         'order_id',
         'item_id',
         'quantity',
-        'selling_price'
+        'selling_price',
+        'cost'
     ];
 
     /**
@@ -29,11 +30,11 @@ class OrderDetail extends Model
     ];
 
     /**
-     * The associated Item model 
+     * The associated Item model
      *
      * @return BelongsTo
      */
-    public function item(): BelongsTo
+    public function item() : BelongsTo
     {
         return $this->belongsTo(Item::class);
     }
@@ -43,7 +44,7 @@ class OrderDetail extends Model
      *
      * @return BelongsTo
      */
-    public function order(): BelongsTo
+    public function order() : BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
@@ -53,7 +54,7 @@ class OrderDetail extends Model
      *
      * @return float
      */
-    public function getAmountAttribute(): float
+    public function getAmountAttribute() : float
     {
         return $this->quantity * $this->selling_price;
     }
@@ -63,12 +64,12 @@ class OrderDetail extends Model
         return $this->morphMany(ItemLog::class, 'loggable', 'causer_type', 'causer_id');
     }
 
-    public function decrementItem(): ItemLog
+    public function decrementItem() : ItemLog
     {
         return $this->logs()->create([
-            'item_id' => $this->item_id,
+            'item_id'  => $this->item_id,
             'quantity' => ($this->quantity * -1),
-            'reason' => "Customer Order # {$this->order_id}"
+            'reason'   => "Customer Order # {$this->order_id}"
         ]);
     }
 

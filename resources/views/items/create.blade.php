@@ -74,6 +74,18 @@
                             </tbody>
                         </table>
                         <hr>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Purchase Cost</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control{{ $errors->has('purchase_cost') ? ' is-invalid' : '' }}" name="purchase_cost" value="{{ old('purchase_cost') }}">
+                                @if ($errors->has('purchase_cost'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('purchase_cost') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Selling Price</label>
                             <div class="col-sm-9">

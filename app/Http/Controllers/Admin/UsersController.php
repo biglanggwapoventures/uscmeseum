@@ -42,7 +42,6 @@ class UsersController extends Controller
             'firstname'      => 'required',
             'lastname'       => 'required',
             'email'          => 'required|email|unique:users',
-            'gender'         => 'required|in:male,female',
             'contact_number' => 'required'
         ]);
 
@@ -89,7 +88,6 @@ class UsersController extends Controller
             'firstname'      => 'required',
             'lastname'       => 'required',
             'email'          => "required|email|unique:users,email,{$user->id}",
-            'gender'         => 'required|in:male,female',
             'contact_number' => 'required',
             'password'       => 'sometimes|nullable|confirmed',
             'enabled'        => 'sometimes|boolean'

@@ -13,7 +13,7 @@ use Session;
 
 class CheckoutController extends Controller
 {
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(Request $request) : JsonResponse
     {
         /**
          * Get the user's delivery address and remarks
@@ -21,18 +21,17 @@ class CheckoutController extends Controller
          */
         $input = $request->validate([
             'delivery_address' => 'required|string',
-            'remarks' => 'present|nullable',
+            'remarks'          => 'present|nullable',
         ]);
 
         /** @var Order $order */
         $order = null;
-        
+
         /**
          * Use DB transaction because storing an order
          * in the database requires multiple queries
          */
         DB::transaction(function () use ($input, &$order) {
-
 
 
             /**
@@ -46,9 +45,9 @@ class CheckoutController extends Controller
              * Create the order
              */
             $order = Order::create([
-                'user_id' => Auth::id(),
+                'user_id'          => Auth::id(),
                 'delivery_address' => $input['delivery_address'],
-                'remarks' => $input['remarks'],
+                'remarks'          => $input['remarks'],
                 'order_status',
                 'order_status_remarks',
             ]);
@@ -59,9 +58,10 @@ class CheckoutController extends Controller
              */
             $orderDetails = $cartItems->map(function ($item) {
                 return [
-                    'item_id' => $item['product']->id,
-                    'quantity' => $item['quantity'],
-                    'selling_price' => $item['product']->selling_price
+                    'item_id'       => $item['product']->id,
+                    'quantity'      => $item['quantity'],
+                    'selling_price' => $item['product']->selling_price,
+                    'cost'          => $item['product']->cost
                 ];
             });
 
@@ -83,7 +83,7 @@ class CheckoutController extends Controller
          * Everything seems to be ok!
          */
         return response()->json([
-            'result' => true,
+            'result'   => true,
             'redirect' => url('orders')
         ]);
     }
@@ -97,8 +97,8 @@ class CheckoutController extends Controller
             compact('order'),
             function ($mail) use ($order) {
                 $mail->to($order->user->email, $order->user->fullname)
-                    ->subject('Order Confirmation')
-                    ->from('uscmuseum2019@gmail.com', config('app.name'));
+                     ->subject('Order Confirmation')
+                     ->from('uscmuseum2019@gmail.com', config('app.name'));
             }
         );
     }

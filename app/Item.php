@@ -11,12 +11,14 @@ class Item extends Model
         'category_id',
         'name',
         'description',
+        'purchase_cost',
         'selling_price',
         'reorder_level',
         'image_filepath'
     ];
 
     protected $casts = [
+        'purchase_cost' => 'double',
         'selling_price' => 'double',
         'reorder_level' => 'double',
     ];

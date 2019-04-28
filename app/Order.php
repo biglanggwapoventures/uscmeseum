@@ -105,4 +105,6 @@ class Order extends Model
     {
         return strtolower($status) === strtolower($this->order_status);
     }
+
+
 }

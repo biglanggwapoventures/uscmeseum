@@ -11,6 +11,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::get('item/{item}/logs', 'ItemLogsController@index');
     Route::post('item/{item}/logs', 'ItemLogsController@store');
     Route::get('most-favorited-items', 'MostFavoritedItemsController');
+    Route::get('sales-report', 'SalesReportController');
 });
 Route::group(['prefix' => 'cart', 'namespace' => 'Cart'], function () {
     Route::post('/', 'UpdateCartController');

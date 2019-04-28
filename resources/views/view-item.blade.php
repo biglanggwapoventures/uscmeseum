@@ -53,7 +53,7 @@
                     {{ number_format($item->selling_price, 2) }}
                 </h3>
                 <p>{{ $item->description }}</p>
-                @if($item->attributes)gi
+                @if($item->attributes)
                     <dl class="row ">
                         @foreach($item->attributes as $attribute)
                             <dt class="col-sm-3">{{ $attribute->name }}</dt>

@@ -87,6 +87,8 @@
                                 @if(auth()->user()->isRole('admin'))
                                     <a href="{{ url('admin/most-favorited-items') }}" class="dropdown-item">Most
                                         Favorited</a>
+                                    <a href="{{ url('admin/sales-report') }}" class="dropdown-item">Sales
+                                        Reports</a>
                                 @endif
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                       style="display: none;">
