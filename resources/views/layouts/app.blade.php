@@ -59,7 +59,7 @@
                             </li>
                         @endif
                     @else
-                        @if(auth()->user()->isRole('user'))
+                        @if(auth()->user()->isRole('standard'))
                             <li class="nav-item">
                                 <a href="{{ url('cart') }}" class="nav-link">
                                     @if($count = Cart::count())
@@ -79,7 +79,7 @@
                                 <a href="{{ url('orders') }}" class="dropdown-item">Order History</a>
                                 <a href="{{ url('profile') }}" class="dropdown-item">Profile</a>
 
-                                @if(auth()->user()->isRole('user'))
+                                @if(auth()->user()->isRole('standard'))
                                     <a href="{{ url('my-favorites') }}" class="dropdown-item">My Favorites</a>
                                 @endif
 
