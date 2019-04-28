@@ -27,7 +27,8 @@
                 <i class="fas fa-check"></i> {{ $message }}
                 <hr>
                 <p class="mb-0">
-                    <a href="{{ url('cart') }}" class="btn btn-outline-success"><i class="fas fa-shopping-cart"></i> Go to cart</a>
+                    <a href="{{ url('cart') }}" class="btn btn-outline-success"><i class="fas fa-shopping-cart"></i> Go
+                        to cart</a>
                     <span class="mx-3">or</span>
                     <a href="{{ url('/') }}" class="btn btn-outline-success"><i class="fas fa-plus"></i> Add more items</a>
                 </p>
@@ -38,7 +39,8 @@
                 <img src="{{ asset("storage/$item->image_filepath") }}" alt="" class="img-fluid mx-auto mb-3">
                 @auth
                     @if(auth()->user()->hasFavorite($item->id))
-                        <p class="text-danger favorite"><i class="fas fa-heart"> </i> This item is in your favorites list</p>
+                        <p class="text-danger favorite"><i class="fas fa-heart"> </i> This item is in your favorites
+                            list</p>
                     @else
                         <p class="text-info favorite"><i class="far fa-heart"></i> Mark as favorite</p>
                     @endif
@@ -51,10 +53,20 @@
                     {{ number_format($item->selling_price, 2) }}
                 </h3>
                 <p>{{ $item->description }}</p>
+                @if($item->attributes)gi
+                    <dl class="row ">
+                        @foreach($item->attributes as $attribute)
+                            <dt class="col-sm-3">{{ $attribute->name }}</dt>
+                            <dd class="col-sm-9">{{  $attribute->pivot->value }}</dd>
+                        @endforeach
+                    </dl>
+
+                @endif
                 <hr>
                 @auth
                     @if(Cart::has($item->id))
-                        <p class="alert alert-info text-center"><i class="fas fa-check"></i> This item is already in your cart. Go to <a href="{{ url('cart') }}">checkout</a> now!</p>
+                        <p class="alert alert-info text-center"><i class="fas fa-check"></i> This item is already in
+                            your cart. Go to <a href="{{ url('cart') }}">checkout</a> now!</p>
                     @else
                         <form action="{{ url('cart') }}" method="POST">
                             @csrf
@@ -68,14 +80,16 @@
                                         </div>
                                         <input name="quantity" value="{{ old('quantity', 1) }}" type="number" min="1b"
                                                class="form-control form-control-lg" placeholder=""
-                                               aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                               aria-label="Example text with button addon"
+                                               aria-describedby="button-addon1">
                                         @if($errors->has('quantity'))
                                             <p class="text-danger">* {{ $errors->first('quantity') }}</p>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <button type="submit" class="btn btn-success btn-lg btn-block"><i class="fas fa-plus"></i>
+                                    <button type="submit" class="btn btn-success btn-lg btn-block"><i
+                                                class="fas fa-plus"></i>
                                         Add to Cart
                                     </button>
                                 </div>
