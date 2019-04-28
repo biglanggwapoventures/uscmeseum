@@ -62,7 +62,7 @@ class CheckoutController extends Controller
                     'item_id'       => $item['product']->id,
                     'quantity'      => $item['quantity'],
                     'selling_price' => $item['product']->selling_price,
-                    'cost'          => $item['product']->cost
+                    'cost'          => $item['product']->purchase_cost
                 ];
             });
 
