@@ -49,7 +49,7 @@
                                     <td class="text-right">
                                         <button class="btn btn-success update-cart" type="button"><i
                                                     class="fas fa-check"></i></button>
-                                        <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i>
+                                        <button class="btn btn-danger btn-remove-item" type="button" ><i class="fas fa-trash"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -61,16 +61,16 @@
                             </tbody>
                             @if($contents->count())
                                 <tfoot>
-                                <tr>
-                                    <td colspan="3" class="text-right font-weight-bold">Delivery Address:</td>
-                                    <td>
-                                        <div class="form-group m-0">
-                                            <textarea id="delivery-address" data-name="delivery_address"
-                                                      class="form-control needs-validation"></textarea>
-                                        </div>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                </tr>
+                                {{--<tr>--}}
+                                    {{--<td colspan="3" class="text-right font-weight-bold">Delivery Address:</td>--}}
+                                    {{--<td class="d-none">--}}
+                                        {{--<div class="form-group m-0">--}}
+                                            {{--<textarea id="delivery-address" data-name="delivery_address"--}}
+                                                      {{--class="form-control needs-validation">-</textarea>--}}
+                                        {{--</div>--}}
+                                    {{--</td>--}}
+                                    {{--<td>&nbsp;</td>--}}
+                                {{--</tr>--}}
                                 <tr>
                                     <td colspan="3" class="text-right border-0  font-weight-bold">Remarks:</td>
                                     <td class="border-0">
@@ -131,6 +131,11 @@
             $(this).val(maxQuantity)
             return false;
           }
+
+          if(parseFloat($(this).val()) < 0){
+            alert('Negative input not allowed!');
+            $(this).val(0)
+          }
           calculateLineAmount($(this).closest('tr'));
           getTotalAmount();
         })
@@ -151,11 +156,13 @@
             contentType: false,
             processData: false,
             success: function (res) {
-
+                window.alert('Cart has been successfully updated!')
             },
             error: function (xhr) {
               if(xhr.status === 500){
                 window.alert('An internal server error has occured. Please refresh the page and try again!')
+              }else if(xhr.status === 422){
+                window.alert('Cart cannot accept negative values')
               }
 
             },
@@ -165,6 +172,46 @@
           })
         })
       });
+
+      $('.btn-remove-item').click(function () {
+
+        if(!confirm('Are you sure ?')){
+            return;
+        }
+
+        var $this = $(this),
+          form = $this.closest('tr').find('form');
+
+        form.find('.quantity').val(0)
+
+        var formData = new FormData(form[0]);
+          content = $this.html();
+
+        $this.addClass('disabled')
+          .html('<i class="fa fa-spin fa-spinner"></i>')
+
+        $.ajax({
+          method: form.attr('method'),
+          url: form.attr('action'),
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function (res) {
+            window.location.reload(false)
+          },
+          error: function (xhr) {
+            if(xhr.status === 500){
+              window.alert('An internal server error has occured. Please refresh the page and try again!')
+            }else if(xhr.status === 422){
+              window.alert('Cart cannot accept negative values')
+            }
+
+          },
+          complete: function () {
+            $this.removeClass('disabled').html(content)
+          }
+        })
+      })
 
       $('#checkout-btn').click(function () {
 

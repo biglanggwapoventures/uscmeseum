@@ -59,15 +59,17 @@
                             </li>
                         @endif
                     @else
-                        <li class="nav-item">
-                            <a href="{{ url('cart') }}" class="nav-link">
-                                @if($count = Cart::count())
-                                    <span class="badge badge-light">{{ $count }}</span>
-                                @endif
-                                <i class="fas fa-shopping-cart"></i>
-                                Cart
-                            </a>
-                        </li>
+                        @if(auth()->user()->isRole('user'))
+                            <li class="nav-item">
+                                <a href="{{ url('cart') }}" class="nav-link">
+                                    @if($count = Cart::count())
+                                        <span class="badge badge-light">{{ $count }}</span>
+                                    @endif
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Cart
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -75,14 +77,14 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a href="{{ url('orders') }}" class="dropdown-item">Order History</a>
-                                <a href="{{ url('my-favorites') }}" class="dropdown-item">My Favorites</a>
-
                                 <a href="{{ url('profile') }}" class="dropdown-item">Profile</a>
-                                <a class="dropdown-item" href="{{ route('logout') }}" q
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
+
+                                @if(auth()->user()->isRole('user'))
+                                    <a href="{{ url('my-favorites') }}" class="dropdown-item">My Favorites</a>
+                                @endif
+
+
+
 
                                 @if(auth()->user()->isRole('admin'))
                                     <a href="{{ url('admin/most-favorited-items') }}" class="dropdown-item">Most
@@ -90,6 +92,11 @@
                                     <a href="{{ url('admin/sales-report') }}" class="dropdown-item">Sales
                                         Reports</a>
                                 @endif
+                                <a class="dropdown-item" href="{{ route('logout') }}" q
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                       style="display: none;">
                                     @csrf
@@ -112,7 +119,7 @@
   $(document).ready(function () {
 
     var counter = $('.dynamic-table tbody tr').length ? $('.dynamic-table tbody tr').length - 1 : 0;
-      $('.dynamic-table').on('click', '.add-line', function (e) {
+    $('.dynamic-table').on('click', '.add-line', function (e) {
       e.preventDefault();
       counter++;
       var $this = $(this),
@@ -136,7 +143,7 @@
         return '';
       });
 
-        clone.find('input[type=checkbox]').prop('checked', false);
+      clone.find('input[type=checkbox]').prop('checked', false);
 
       table.find('tbody').append(clone)
       // clone.appendTo();

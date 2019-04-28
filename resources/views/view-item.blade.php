@@ -49,19 +49,23 @@
             <div class="col sm-9">
                 <h1>{{ $item->name }}</h1>
                 <h3 class="text-success">
-                    <i class="fas fa-money-bill"></i>
+                    PHP
                     {{ number_format($item->selling_price, 2) }}
                 </h3>
                 <p>{{ $item->description }}</p>
-                @if($item->attributes)
+
                     <dl class="row ">
-                        @foreach($item->attributes as $attribute)
-                            <dt class="col-sm-3">{{ $attribute->name }}</dt>
-                            <dd class="col-sm-9">{{  $attribute->pivot->value }}</dd>
-                        @endforeach
+                        <dt class="col-sm-3">Stocks left</dt>
+                        <dd class="col-sm-9">{{  $item->balance }}</dd>
+                        @if($item->attributes)
+                            @foreach($item->attributes as $attribute)
+                                <dt class="col-sm-3">{{ $attribute->name }}</dt>
+                                <dd class="col-sm-9">{{  $attribute->pivot->value }}</dd>
+                            @endforeach
+                        @endif
                     </dl>
 
-                @endif
+
                 <hr>
                 @auth
                     @if(Cart::has($item->id))

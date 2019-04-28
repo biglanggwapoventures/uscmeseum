@@ -10,7 +10,7 @@ class ViewItemController extends Controller
 {
     public function __invoke(Item $item, $slug)
     {
-        $item->load(['category', 'attributes']);
+        $item->load(['category', 'attributes', 'logs']);
         
         if(Str::slug($item->name) !== $slug){
             return abort(404);

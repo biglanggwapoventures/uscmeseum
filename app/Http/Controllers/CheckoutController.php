@@ -20,7 +20,7 @@ class CheckoutController extends Controller
          * from the checkout page
          */
         $input = $request->validate([
-            'delivery_address' => 'required|string',
+//            'delivery_address' => 'required|string',
             'remarks'          => 'present|nullable',
         ]);
 
@@ -46,7 +46,8 @@ class CheckoutController extends Controller
              */
             $order = Order::create([
                 'user_id'          => Auth::id(),
-                'delivery_address' => $input['delivery_address'],
+//                'delivery_address' => $input['delivery_address'],
+                'delivery_address' => '-',
                 'remarks'          => $input['remarks'],
                 'order_status',
                 'order_status_remarks',
