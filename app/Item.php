@@ -12,11 +12,22 @@ class Item extends Model
         'name',
         'description',
         'selling_price',
+        'reorder_level',
         'image_filepath'
+    ];
+
+    protected $casts = [
+        'selling_price' => 'double',
+        'reorder_level' => 'double',
     ];
 
     protected $appends = [
         'slug'
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function category()
@@ -36,7 +47,7 @@ class Item extends Model
 
     public function getBalanceAttribute() : float
     {
-        if(!$this->relationLoaded('logs')){
+        if ( ! $this->relationLoaded('logs')) {
             return 0;
         }
 
@@ -45,6 +56,11 @@ class Item extends Model
 
     public function likers()
     {
-        return $this->belongsToMany(Item::class, 'favorites','item_id', 'user_id');
+        return $this->belongsToMany(Item::class, 'favorites', 'item_id', 'user_id');
+    }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, 'attributes_items')->withPivot(['value']);
     }
 }

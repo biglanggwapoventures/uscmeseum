@@ -58,27 +58,6 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="gender" class="col-md-4 col-form-label text-md-right">Gender</label>
-
-                                <div class="col-md-6">
-                                    <select name="gender" id="gender" name="gender" class="form-control" required>
-                                        <option>Choose gender</option>
-                                        <option value="male" {{ old('gender', $user->gender) === 'male' ? 'selected="selected"' : '' }}>
-                                            MALE
-                                        </option>
-                                        <option value="female" {{ old('gender', $user->gender) === 'female' ? 'selected="selected"' : '' }}>
-                                            FEMALE
-                                        </option>
-                                    </select>
-                                    @if ($errors->has('gender'))
-                                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('gender') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
                                 <label for="contact_number" class="col-md-4 col-form-label text-md-right">Contact
                                     Number</label>
 

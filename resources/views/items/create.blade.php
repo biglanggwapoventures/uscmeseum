@@ -15,7 +15,7 @@
                     <h5 class="card-title">
                         Create new item
                     </h5>
-                    <form method="post" action="{{ url('admin/items') }}" enctype="multipart/form-data">
+                    <form method="post" action="{{ url('admin/items') }}" enctype="multipart/form-data" class="ajax">
                         @csrf
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Category</label>
@@ -34,6 +34,7 @@
                             </div>
                             
                         </div>
+
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9">
@@ -58,6 +59,21 @@
                             </div>
                            
                         </div>
+                        <hr>
+                        <table class="table" id="category-attributes">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Unique</th>
+                                <th>Required</th>
+                                <th>Value</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <hr>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Selling Price</label>
                             <div class="col-sm-9">
@@ -65,6 +81,17 @@
                                 @if ($errors->has('selling_price'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('selling_price') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Reorder Level</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control{{ $errors->has('reorder_level') ? ' is-invalid' : '' }}" min="0" name="reorder_level" value="{{ old('reorder_level') }}">
+                                @if ($errors->has('reorder_level'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('reorder_level') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -96,3 +123,36 @@
 </div>
 @endsection
 
+
+
+
+@push('js')
+    <script type="text/javascript">
+      $(document).ready(function () {
+        let categories = {!! $categories->keyBy('id')->toJson() !!};
+        $('[name=category_id]').change(function () {
+          var $this= $(this),
+            categoryId = $this.val();
+          if(!categoryId){
+            return;
+          }
+
+          $('#category-attributes tbody').html(function () {
+
+            var content = ''
+            for(x = 0; x < categories[categoryId].attributes.length; x++){
+              content += '<tr>' +
+                '<td>'+categories[categoryId].attributes[x].name+'</td>' +
+                '<td>'+(categories[categoryId].attributes[x].is_unique ? 'YES' : 'NO' )+'</td>' +
+                '<td>'+(categories[categoryId].attributes[x].is_required ? 'YES' : 'NO' )+'</td>' +
+                '<td><input class="form-control" type="text" name="attributes['+x+'][value]"><input type="hidden" value="'+categories[categoryId].attributes[x].id+'" name="attributes['+x+'][attribute_id]"></td>'
+                '</tr>'
+            }
+            return content
+          })
+
+
+        })
+      });
+    </script>
+@endpush

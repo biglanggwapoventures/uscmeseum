@@ -25,7 +25,6 @@ class ProfileController extends Controller
         $input = $request->validate([
             'firstname'      => ['required', 'string', 'max:255'],
             'lastname'       => ['required', 'string', 'max:255'],
-            'gender'         => ['required', 'in:male,female'],
             'contact_number' => ['required', 'string'],
             'password'       => ['sometimes', 'nullable', 'string', 'min:4', 'confirmed'],
         ]);
