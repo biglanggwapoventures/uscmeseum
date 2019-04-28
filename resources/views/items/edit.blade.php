@@ -93,7 +93,7 @@
                             <hr>
 
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Selling Price</label>
+                                <label class="col-sm-3 col-form-label">Purchase Cost</label>
                                 <div class="col-sm-9">
                                     <input type="number"
                                            class="form-control{{ $errors->has('purchase_cost') ? ' is-invalid' : '' }}"

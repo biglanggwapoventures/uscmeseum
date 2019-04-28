@@ -19,7 +19,7 @@ class ItemLogsController extends Controller
     public function store(Item $item, Request $request)
     {
         $input = $request->validate([
-            'quantity' => 'required|numeric',
+            'quantity' => 'required|numeric|min:0',
         ]);
 
         $item->logs()->create(array_merge($input, [
