@@ -61,6 +61,7 @@
                                     </span>
                                 @endif
                             </div>
+                        </div>
                         <div class="row">
                             <div class="col-sm-9 offset-sm-3">
                                 <div class="form-group form-check">
