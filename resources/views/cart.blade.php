@@ -89,10 +89,11 @@
                                 <tr>
                                     <td colspan="3" class="text-right border-0"></td>
                                     <td class="border-0">
-                                        <button type="button"
-                                                data-checkout-settings="{!! htmlspecialchars(json_encode(['url' => url('checkout'), 'method' => 'post', 'token' => csrf_token()])) !!}"
-                                                id="checkout-btn" class="btn btn-primary btn-block">Checkout
-                                        </button>
+                                        <a href="{{ url('checkout') }}" class="btn btn-primary btn-block">Proceed to checkout</a>
+                                        {{--<button type="button"--}}
+                                                {{--data-checkout-settings="{!! htmlspecialchars(json_encode(['url' => url('checkout'), 'method' => 'post', 'token' => csrf_token()])) !!}"--}}
+                                                {{--id="checkout-btn" class="btn btn-primary btn-block">Checkout--}}
+                                        {{--</button>--}}
                                     </td>
                                 </tr>
                                 </tfoot>

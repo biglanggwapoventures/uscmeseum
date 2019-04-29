@@ -30,7 +30,9 @@ Route::get('my-favorites', 'MarkFavoriteController@index');
 
 Route::resource('orders', 'OrderController');
 
-Route::post('checkout', 'CheckoutController');
+Route::post('checkout', 'CheckoutController@store');
+Route::get('checkout', 'CheckoutController@index');
+
 
 Route::get('{item}/{slug}', 'ViewItemController');
 

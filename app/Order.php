@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Order
- * @property int    $user_id
- * @property string $delivery_address
- * @property string $remarks
- * @property string $order_status
- * @property string $order_status_remarks
+ * @property int        $user_id
+ * @property string     $delivery_address
+ * @property string     $remarks
+ * @property string     $order_status
+ * @property string     $order_status_remarks
+ * @property-read float $total_amount
  *
  * @package App
  */
@@ -43,6 +44,10 @@ class Order extends Model
      */
     protected $appends = [
         'total_amount'
+    ];
+
+    protected $casts = [
+        'transaction_details' => 'array'
     ];
 
 
@@ -101,7 +106,7 @@ class Order extends Model
         return $this->orderDetails->sum('amount');
     }
 
-    public function status ($status)
+    public function status($status)
     {
         return strtolower($status) === strtolower($this->order_status);
     }

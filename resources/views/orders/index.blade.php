@@ -14,10 +14,9 @@
                             <thead class="thead-dark">
                             <tr>
                                 <th>#</th>
+                                <th>PayPal Transaction ID</th>
                                 <th>Customer</th>
                                 <th>Date</th>
-                                <th>Delivery Address</th>
-                                <th>Remarks</th>
                                 <th class="text-right">Total Amount</th>
                                 <th class="text-center">Status</th>
                                 <th></th>
@@ -27,10 +26,9 @@
                             @forelse($orders as $order)
                                 <tr>
                                     <td>{{ $order->id }}</td>
+                                    <td>{{ Arr::get($order->transaction_details, 'id', 'n/a') }}</td>
                                     <td>{{ $order->customer->fullname }}</td>
                                     <td>{{ $order->created_at->format('M d, Y h:i A') }}</td>
-                                    <td>{{ $order->delivery_address }}</td>
-                                    <td>{{ $order->remarks }}</td>
                                     <td class="text-right">{{ number_format($order->total_amount, 2) }}</td>
                                     <td class="text-center">
                                         @if($order->order_status === 'pending')
