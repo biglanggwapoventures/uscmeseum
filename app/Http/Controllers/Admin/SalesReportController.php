@@ -32,10 +32,8 @@ class SalesReportController extends Controller
                        ->with('orderDetails.item')
                        ->get();
 
-        $data = $result->flatMap->orderDetails;
 
-//        dd($data);
-
+        $data = $result->flatMap->orderDetails->sortByDesc('created_at')->values();
 
         return view('sales-report', compact('data'));
     }

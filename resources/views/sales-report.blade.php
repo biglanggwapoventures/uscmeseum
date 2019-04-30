@@ -38,7 +38,7 @@
                                 <td>{{ \Carbon\Carbon::parse($item->created_at)->format('m/d/Y h:i A') }}</td>
                                 <td>{{ $item->item->name }}</td>
                                 <td class="text-right">{{ $item->quantity }}</td>
-                                <td class="text-right">{{ number_format($item->purchase_cost, 2) }}</td>
+                                <td class="text-right">{{ number_format($item->cost, 2) }}</td>
                                 <td class="text-right">{{ number_format($item->selling_price, 2) }}</td>
                                 @php
                                     $income = $item->selling_price * $item->quantity;
