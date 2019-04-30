@@ -42,7 +42,7 @@
                                 <td class="text-right">{{ number_format($item->selling_price, 2) }}</td>
                                 @php
                                     $income = $item->selling_price * $item->quantity;
-                                    $cost = $item->purchase_cost * $item->quantity;
+                                    $cost = $item->cost * $item->quantity;
                                 @endphp
                                 <td class="text-right">{{ number_format($income, 2) }}</td>
                                 <td class="text-right">{{ number_format(($profit = $income - $cost), 2) }}</td>
