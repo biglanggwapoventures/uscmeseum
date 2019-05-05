@@ -18,7 +18,7 @@ class SalesReportController extends Controller
     {
         $request->validate([
             'start' => 'date',
-            'end'   => 'date|after:start'
+            'end'   => 'date|after_or_equal:start'
         ]);
 
         $result = Order::query()

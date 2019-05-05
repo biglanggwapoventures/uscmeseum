@@ -11,18 +11,22 @@ class HomeController extends Controller
 {
     public function welcome(Request $request)
     {
+        $bestSellersQuantities = Item::bestSellers();
+        $bestSellerItems = Item::find(array_keys($bestSellersQuantities))->keyBy('id');
+
 
         $categories = Category::orderBy('name')->get();
-        $items = Item::latest()
-            ->when($request->has('category_id'), function ($query) use ($request) {
-                $query->where('category_id', $request->category_id);
-            })
-            ->when($request->has('q'), function ($query) use ($request) {
-                $query->where('name', 'like', "%{$request->q}%");
-            })
-            ->get();
 
-        return view('welcome', compact('categories', 'items'));
+        $items = Item::latest()
+                     ->when($request->has('category_id'), function ($query) use ($request) {
+                         $query->where('category_id', $request->category_id);
+                     })
+                     ->when($request->has('q'), function ($query) use ($request) {
+                         $query->where('name', 'like', "%{$request->q}%");
+                     })
+                     ->get();
+
+        return view('welcome', compact('categories', 'items', 'bestSellersQuantities', 'bestSellerItems'));
     }
 }
  

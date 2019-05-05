@@ -12,7 +12,7 @@ class UpdateCartController extends Controller
     {
         $validator = \Validator::make($request->all(), [
             'item_id' => 'required|exists:items,id',
-            'quantity' => 'required|int|min:0',
+            'quantity' => 'required|int|min:1',
             'strategy' => 'required|in:append,replace'
         ]);
 

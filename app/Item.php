@@ -65,4 +65,17 @@ class Item extends Model
     {
         return $this->belongsToMany(Attribute::class, 'attributes_items')->withPivot(['value']);
     }
+
+    public static function bestSellers()
+    {
+        return \DB::table('items')
+                  ->selectRaw('items.id, IFNULL(SUM(od.quantity), 0) AS total_ordered')
+                  ->leftJoin('order_details AS od', 'od.item_id', '=', 'items.id')
+                  ->groupBy('items.id')
+                  ->orderBy('total_ordered', 'desc')
+                  ->limit(4)
+                  ->get()
+                  ->pluck('total_ordered', 'id')
+                  ->all();
+    }
 }

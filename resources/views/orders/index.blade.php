@@ -13,7 +13,6 @@
                         <table class="table mb-0 table-striped table-hover">
                             <thead class="thead-dark">
                             <tr>
-                                <th>#</th>
                                 <th>PayPal Transaction ID</th>
                                 <th>Customer</th>
                                 <th>Date</th>
@@ -25,7 +24,6 @@
                             <tbody>
                             @forelse($orders as $order)
                                 <tr>
-                                    <td>{{ $order->id }}</td>
                                     <td>{{ Arr::get($order->transaction_details, 'id', 'n/a') }}</td>
                                     <td>{{ $order->customer->fullname }}</td>
                                     <td>{{ $order->created_at->format('M d, Y h:i A') }}</td>

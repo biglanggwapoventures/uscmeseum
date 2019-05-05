@@ -1,21 +1,53 @@
 @extends('layouts.app')
 
+@push('css')
+    <style type="text/css">
+        @media screen {
+            .no-print{
+                display: block;
+            }
+            .print{
+                display: none;
+            }
+        }
+        @media print {
+            .print{
+                display: block;
+            }
+            .no-print{
+                display: none;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col">
                 <h1>Sales Report</h1>
-                <form class="form-inline" method="get" action="{{url()->current()}}">
-                    <label for="start-date">Start Date</label>
-                    <input type="date" class="form-control mb-2 mr-sm-2" id="start-date" placeholder="Start Date"
-                           name="start" value="{{request('start')}}">
+                <div class="no-print">
+                    <form class="form-inline" method="get" action="{{url()->current()}}">
+                        <label for="start-date">Start Date</label>
+                        <input type="date" class="form-control mb-2 mr-sm-2" id="start-date" placeholder="Start Date"
+                               name="start" value="{{request('start')}}">
 
-                    <label for="end-date">End Date</label>
-                    <input type="date" class="form-control mb-2 mr-sm-2" id="end-date" placeholder="End Date" name="end"
-                           value="{{request('end')}}">
+                        <label for="end-date">End Date</label>
+                        <input type="date" class="form-control mb-2 mr-sm-2" id="end-date" placeholder="End Date" name="end"
+                               value="{{request('end')}}">
 
-                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
-                </form>
+                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                        <button type="button" class="btn btn-outline-success ml-2 mb-2" onclick="javascript:window.print()"><i class="fas fa-print"></i> Print</button>
+                    </form>
+                </div>
+                <div class="print text-center">
+                    <p>
+                        START DATE:
+                        <strong>{{ request('start') ? date_create(request('start'))->format('M d, Y h:i A') : 'Start of time'  }}</strong>
+                        END DATE: <strong>{{ request('end') ? date_create(request('end'))->format('M d, Y h:i A') : 'End of time'  }}</strong
+                        ></p>
+                </div>
+
                 <div class="card card-body p-0">
                     <table class="table mb-0">
                         <thead>
@@ -61,6 +93,10 @@
                         </tr>
                         </tfoot>
                     </table>
+                </div>
+                <div class="card-body print">
+                    <p>Printed by: <strong>{{ auth()->user()->full_name }}</strong></p>
+                    <p>Printed on: <strong>{{ now()->format('M d, Y h:i A') }}</strong></p>
                 </div>
             </div>
         </div>
