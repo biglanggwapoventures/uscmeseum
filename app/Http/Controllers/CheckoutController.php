@@ -80,7 +80,9 @@ class CheckoutController extends Controller
                 $this->sendEmail($order);
                 Session::flash('checkout', true);
 
+
                 $order->transaction_details = $payment['details'];
+                $order->order_status        = Order::STATUS_APPROVED;
                 $order->save();
 
                 return redirect('orders');
@@ -132,7 +134,7 @@ class CheckoutController extends Controller
                 'user_id'          => Auth::id(),
                 'delivery_address' => $request->input('remarks', '-'),
                 'remarks'          => $request->input('remarks', '-'),
-                'order_status'     => Order::STATUS_APPROVED,
+                'order_status'     => Order::STATUS_PENDING,
                 'order_status_remarks',
             ]);
 
@@ -153,15 +155,8 @@ class CheckoutController extends Controller
              * Then we associate the order details
              */
             $order->orderDetails()->createMany($orderDetails->toArray());
-            $order->load('orderDetails.item');
-            $order->orderDetails->each(function ($detail) use ($order){
-                $detail->item->logs()->create([
-                    'quantity' => ($detail->quantity * -1),
-                    'item_id' => $detail->item->id,
-                    'reason' => "Order # {$order->id}"
-                ]);
-            });
 
+            $this->decrementItemQuantities($order);
 
         });
 
@@ -201,5 +196,22 @@ class CheckoutController extends Controller
         }
 
         return $data;
+    }
+
+    protected function decrementItemQuantities(Order $order) : void
+    {
+        if ( ! $order->status(Order::STATUS_APPROVED)) {
+            return;
+        }
+
+        $order->load('orderDetails.item');
+
+        $order->orderDetails->each(function ($detail) use ($order) {
+            $detail->item->logs()->create([
+                'quantity' => ($detail->quantity * -1),
+                'item_id'  => $detail->item->id,
+                'reason'   => "Order # {$order->id}"
+            ]);
+        });
     }
 }
