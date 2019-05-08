@@ -55,6 +55,7 @@ class ItemsController extends Controller
             'description'               => 'required',
             'category_id'               => 'required|exists:categories,id',
             'selling_price'             => 'required|numeric',
+            'purchase_cost'             => 'required|numeric',
             'reorder_level'             => 'required|numeric|min:0',
             'image'                     => 'required|image',
             'attributes.*.attribute_id' => 'sometimes|required|exists:attributes,id|distinct',
@@ -167,6 +168,7 @@ class ItemsController extends Controller
             'category_id'               => "required|exists:categories,id",
             'selling_price'             => 'required|numeric',
             'reorder_level'             => 'required|numeric|min:0',
+            'purchase_cost'             => 'required|numeric',
             'image'                     => 'image',
             'attributes.*.attribute_id' => 'sometimes|required|exists:attributes,id|distinct',
             'attributes.*.value'        => 'sometimes'
@@ -199,7 +201,7 @@ class ItemsController extends Controller
                             $attributeInputs[$attribute->id])->first();
 
 
-                        if($existingAttribute && $existingAttribute->item_id !== $item->id){
+                        if ($existingAttribute && $existingAttribute->item_id !== $item->id) {
                             $validator->errors()->add("attributes.{$index}.value", 'This must be unique');
                         }
 
