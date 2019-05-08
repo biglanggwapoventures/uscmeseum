@@ -90,19 +90,12 @@ class UsersController extends Controller
             'email'          => "required|email|unique:users,email,{$user->id}",
             'contact_number' => 'required',
             'password'       => 'sometimes|nullable|confirmed',
-            'enabled'        => 'sometimes|boolean'
         ]);
 
         if (isset($data['password']) && strlen($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         } else {
             unset($data['password']);
-        }
-
-        if (isset($data['enabled']) && $data['enabled']) {
-            $data['enabled_at'] = now()->format('Y-m-d H:i:s');
-        } else {
-            $data['enabled_at'] = null;
         }
 
         unset($data['enabled']);

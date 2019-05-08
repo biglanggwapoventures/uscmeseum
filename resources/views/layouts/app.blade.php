@@ -174,12 +174,14 @@
       $this.trigger('form:submitted');
 
 
-      var submitBtn = $this.find('[type=submit]');
+      var submitBtn = $this.find('[type=submit]'),
+        btnContent = submitBtn.html();
 
 
       $this.find('.help-block').remove();
 
-      submitBtn.attr('disabled', 'disabled').html('<i class="fa fa-spin fa-spinner"></i> Saving...')
+      submitBtn.attr('disabled', 'disabled')
+        .html('<i class="fas fa-spin fa-spinner"></i> Saving...')
 
 
       var formData = new FormData($this[0]);
@@ -191,7 +193,6 @@
         contentType: false,
         processData: false,
         success: function (res) {
-          $this.trigger('form:submitted:success');
           if (res.hasOwnProperty('next_url')) {
             window.location.href = res.next_url;
           } else if ($this.data('next-url')) {
@@ -201,7 +202,6 @@
           }
         },
         error: function (err) {
-          $this.trigger('form:submitted:error');
 
           if (err.status == 422) {
             var errors = err.responseJSON['errors'];
@@ -224,18 +224,12 @@
 
             }
           } else {
+            alert('Error trying to complete your request. Please try again.');
           }
         },
         complete: function () {
-          $this.trigger('form:submitted:complete');
 
-          if ($this.hasClass('has-datepicker')) {
-            $this.find('.datepicker').val(function () {
-              return $(this).val() ? moment($(this).val(), 'Y-MM-DD').format('MM/DD/YYYY') : null;
-            });
-          }
-
-          submitBtn.removeAttr('disabled').text('Save');
+          submitBtn.removeAttr('disabled').html(btnContent);
         }
       })
     })

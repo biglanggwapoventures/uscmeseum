@@ -23,6 +23,9 @@
         <div class="row">
             <div class="col">
                 <h1>Checkout</h1>
+
+
+
                 <div class="card">
                     <div class="card-body">
                         @if($creditCardError = session('creditCardError'))
@@ -56,7 +59,7 @@
                             </div>
                             <div class="col-md-8 order-md-1">
                                 <h4 class="mb-3">Billing address</h4>
-                                <form action="{{ url('checkout') }}" method="POST">
+                                <form action="{{ url('checkout') }}" method="POST" class="ajax">
                                     @csrf
                                     <div class="form-group">
                                         <label>Address</label>

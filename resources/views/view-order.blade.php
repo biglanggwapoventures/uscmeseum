@@ -23,9 +23,6 @@
                             <dt class="col-sm-3">Order Remarks</dt>
                             <dd class="col-sm-9">{{ $order->remarks ?: '-' }}</dd>
 
-                            <dt class="col-sm-3">Delivery Address</dt>
-                            <dd class="col-sm-9">{{ $order->delivery_address  }}</dd>
-
                             <dt class="col-sm-3">Total Amount</dt>
                             <dd class="col-sm-9">
                                 <span class="font-weight-bold text-primary">{{ number_format($order->total_amount, 2)  }}</span>

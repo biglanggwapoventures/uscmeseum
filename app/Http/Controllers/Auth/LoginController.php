@@ -70,11 +70,6 @@ class LoginController extends Controller
                         ->where($this->username(), $request->input($this->username()))
                         ->first();
 
-            if ( ! $user->enabled_at && $user->isRole('standard')) {
-                $validator->errors()->add($this->username(), 'Account is not yet activated.');
-                return;
-            }
-
             if ( ! Hash::check($request->input('password'), $user->password)) {
                 $validator->errors()->add('password', 'Incorrect password');
             }

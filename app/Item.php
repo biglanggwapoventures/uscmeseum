@@ -72,6 +72,7 @@ class Item extends Model
                   ->selectRaw('items.id, IFNULL(SUM(od.quantity), 0) AS total_ordered')
                   ->leftJoin('order_details AS od', 'od.item_id', '=', 'items.id')
                   ->groupBy('items.id')
+                  ->having('total_ordered', '>', 0)
                   ->orderBy('total_ordered', 'desc')
                   ->limit(4)
                   ->get()

@@ -54,8 +54,10 @@
                                     <td class="text-right">{{ number_format($item->balance) }}</td>
                                     <td class="text-right">{{ number_format($item->reorder_level) }}</td>
                                     <td>
-                                        @if($item->reorder_level >= $item->balance)
-                                            <span class="text-danger"><i class="fas fa-info-circle"></i> Low in stock</span>
+                                        @if($item->balance <=0 )
+                                            <span class="text-danger"><i class="fas fa-times"></i> No stock</span>
+                                        @elseif($item->reorder_level >= $item->balance)
+                                            <span style="color:darkorange"><i class="fas fa-info-circle"></i> Low in stock</span>
                                         @else
                                             <span class="text-success"><i class="fas fa-check"></i> High in stock</span>
                                         @endif

@@ -62,14 +62,6 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-9 offset-sm-3">
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="enabled" value="1" {{ old('enabled', $user->enabled_at) ? 'checked="checked"' : '' }}>
-                                    <label class="form-check-label" for="exampleCheck1">Enabled</label>
-                                </div>
-                            </div>
-                        </div>
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-success">Save</button>
                             <a href="{{ url('admin/users') }}" class="btn btn-outline-info">Back</a>

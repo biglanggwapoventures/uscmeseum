@@ -26,7 +26,6 @@
                                 <th>Gender</th>
                                 <th>Email Address</th>
                                 <th>Contact Number</th>
-                                <th>Status</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -38,14 +37,6 @@
                                     <td>{{ $user->lastname }}</td>
                                     <td>{{ $user->gender }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->contact_number }}</td>
-                                    <td>
-                                        @if($user->enabled_at)
-                                            <span class="badge badge-success">Enabled</span>
-                                        @else
-                                            <span class="badge badge-warning">Pending Activation</span>
-                                        @endif
-                                    </td>
                                     <td class="text-center">
                                         <a href="{{ url("admin/users/{$user->id}/edit") }}"
                                            class="btn btn-sm btn-outline-info mr-2">Edit</a>

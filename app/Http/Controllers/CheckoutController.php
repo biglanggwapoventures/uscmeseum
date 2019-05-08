@@ -63,18 +63,18 @@ class CheckoutController extends Controller
             'billingCountry' => 'PH',
         ]);
 
+
         try {
 
-            /** @var Order o$order */
-            $order = $this->checkout($request);
-
             $gateway = new PayPal();
-
             $gateway->setCard($creditCard);
 
-            $payment = $gateway->pay($order->total_amount);
+            $payment = $gateway->pay(Cart::getTotalAmount());
 
             if ($payment['status']) {
+
+                /** @var Order $order */
+                $order = $this->checkout($request);
 
                 Cart::clear();
                 $this->sendEmail($order);
@@ -82,29 +82,30 @@ class CheckoutController extends Controller
 
 
                 $order->transaction_details = $payment['details'];
-                $order->order_status        = Order::STATUS_APPROVED;
                 $order->save();
 
-                return redirect('orders');
+                return response()->json([
+                    'result'   => true,
+                    'next_url' => url('orders')
+                ]);
 
             } else {
 
-
-                return redirect()->back()->with([
-                    'creditCardError' => 'Credit card unavailable. Please contact your credit card provider',
-                    'debug'           => $payment['details']
-                ]);
-
+                return response()->json([
+                    'result'            => false,
+                    'credit_card_error' => 'Credit card unavailable. Please contact your credit card provider',
+                    'debug'             => $payment['details']
+                ], 500);
 
             }
 
         } catch (\ErrorException $e) {
 
-            return redirect()->back()->with([
-                'creditCardError' => 'Credit card unavailable. Please contact your credit card provider',
-                'debug'           => $e->getTrace()
-            ]);
-
+            return response()->json([
+                'result'            => false,
+                'credit_card_error' => 'Credit card unavailable. Please contact your credit card provider',
+                'debug'             => $e->getTrace()
+            ], 500);
         }
     }
 
@@ -134,7 +135,7 @@ class CheckoutController extends Controller
                 'user_id'          => Auth::id(),
                 'delivery_address' => $request->input('remarks', '-'),
                 'remarks'          => $request->input('remarks', '-'),
-                'order_status'     => Order::STATUS_PENDING,
+                'order_status'     => Order::STATUS_APPROVED,
                 'order_status_remarks',
             ]);
 
@@ -200,10 +201,6 @@ class CheckoutController extends Controller
 
     protected function decrementItemQuantities(Order $order) : void
     {
-        if ( ! $order->status(Order::STATUS_APPROVED)) {
-            return;
-        }
-
         $order->load('orderDetails.item');
 
         $order->orderDetails->each(function ($detail) use ($order) {

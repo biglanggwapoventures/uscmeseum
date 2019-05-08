@@ -10,16 +10,16 @@ use App\Order;
 class Cart
 {
     const STRATEGY_REPLACE = 'replace';
-    const STRATEGY_APPEND  = 'append';
+    const STRATEGY_APPEND = 'append';
 
     const SESSION_CART_KEY = '_CART_';
 
     /**
      * updateContents
      *
-     * @param string $itemId
+     * @param string  $itemId
      * @param integer $quantity
-     * @param string $strategy
+     * @param string  $strategy
      * @return void
      */
     public static function updateContents(string $itemId, int $quantity, string $strategy = self::STRATEGY_APPEND)
@@ -114,6 +114,16 @@ class Cart
         });
 
         return $contents;
+    }
+
+    /**
+     * @return float
+     */
+    public static function getTotalAmount(): float
+    {
+        return static::allContents()->reduce(function ($carry, $item) {
+            return $carry + ($item['quantity'] * $item['product']->selling_price);
+        }, 0);
     }
 
     public static function clear()
