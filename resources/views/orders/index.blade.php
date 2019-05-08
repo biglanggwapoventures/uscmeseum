@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>Orders History</h1>
+                <h1>Sales Transaction</h1>
                 @if(session('checkout'))
                     <div class="alert alert-success"><i class="fas fa-check"></i> Thank you for shopping with us. You can track your orders below!</div>
                 @endif

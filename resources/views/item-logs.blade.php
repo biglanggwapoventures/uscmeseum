@@ -10,9 +10,10 @@
 
                 <form class="form-inline" method="post" action="{{ url()->current() }}">
                     @csrf
+                    @php $maxNegative = $item->balance > 0 ? ($item->balance * -1) : 0 @endphp
                     <div class="form-group mb-2">
                         <label>Adjust Quantity</label>
-                        <input type="number" name="quantity" class="form-control mx-2">
+                        <input type="number" name="quantity" class="form-control mx-2" min="{{$maxNegative}}">
                     </div>
                     <button type="submit" class="btn btn-primary mb-2">Save</button>
                 </form>
