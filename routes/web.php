@@ -13,7 +13,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::get('most-favorited-items', 'MostFavoritedItemsController');
     Route::get('sales-report', 'SalesReportController');
 });
-Route::group(['prefix' => 'cart', 'namespace' => 'Cart'], function () {
+Route::group(['prefix' => 'cart', 'namespace' => 'Cart', 'middleware' => 'non-admin'], function () {
     Route::post('/', 'UpdateCartController');
     Route::get('/', 'ShowCartController');
 });
@@ -30,8 +30,8 @@ Route::get('my-favorites', 'MarkFavoriteController@index');
 
 Route::resource('orders', 'OrderController');
 
-Route::post('checkout', 'CheckoutController@store');
-Route::get('checkout', 'CheckoutController@index');
+Route::post('checkout', 'CheckoutController@store')->middleware('non-admin');
+Route::get('checkout', 'CheckoutController@index')->middleware('non-admin');
 
 
 Route::get('{item}/{slug}', 'ViewItemController');

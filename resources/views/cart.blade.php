@@ -61,26 +61,6 @@
                             </tbody>
                             @if($contents->count())
                                 <tfoot>
-                                {{--<tr>--}}
-                                    {{--<td colspan="3" class="text-right font-weight-bold">Delivery Address:</td>--}}
-                                    {{--<td class="d-none">--}}
-                                        {{--<div class="form-group m-0">--}}
-                                            {{--<textarea id="delivery-address" data-name="delivery_address"--}}
-                                                      {{--class="form-control needs-validation">-</textarea>--}}
-                                        {{--</div>--}}
-                                    {{--</td>--}}
-                                    {{--<td>&nbsp;</td>--}}
-                                {{--</tr>--}}
-                                <tr>
-                                    <td colspan="3" class="text-right border-0  font-weight-bold">Remarks:</td>
-                                    <td class="border-0">
-                                        <div class="form-group m-0">
-                                            <textarea id="remarks" data-name="remarks"
-                                                      class="form-control  needs-validation"></textarea>
-                                        </div>
-                                    </td>
-                                </tr>
-
                                 <tr>
                                     <td colspan="3" class="text-right  border-0  font-weight-bold">Total Amount:</td>
                                     <td class="text-right font-weight-bold border-0" id="total-amount"
@@ -90,10 +70,6 @@
                                     <td colspan="3" class="text-right border-0"></td>
                                     <td class="border-0">
                                         <a href="{{ url('checkout') }}" class="btn btn-primary btn-block">Proceed to checkout</a>
-                                        {{--<button type="button"--}}
-                                                {{--data-checkout-settings="{!! htmlspecialchars(json_encode(['url' => url('checkout'), 'method' => 'post', 'token' => csrf_token()])) !!}"--}}
-                                                {{--id="checkout-btn" class="btn btn-primary btn-block">Checkout--}}
-                                        {{--</button>--}}
                                     </td>
                                 </tr>
                                 </tfoot>

@@ -67,7 +67,7 @@
 
 
                 <hr>
-                @auth
+                @if(auth()->check() && auth()->user()->isRole('standard'))
                     @if(Cart::has($item->id))
                         <p class="alert alert-info text-center"><i class="fas fa-check"></i> This item is already in
                             your cart. Go to <a href="{{ url('cart') }}">checkout</a> now!</p>
@@ -100,7 +100,10 @@
                             </div>
                         </form>
                     @endif
-
+                @elseif(auth()->check() && auth()->user()->isRole('admin'))
+                    <p class="text-center text-danger">
+                        Admins cannot checkout items
+                    </p>
                 @else
                     <p class="text-center text-danger">
                         Please login to checkout items
